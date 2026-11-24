@@ -9,6 +9,7 @@ Icon
 MusicMixStudio.app/
 AudioMerger.app/
 *.app
+*.pkg
 *.dSYM
 *.o
 *.pcm
