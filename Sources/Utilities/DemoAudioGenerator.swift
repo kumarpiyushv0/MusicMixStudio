@@ -3,7 +3,7 @@ import AVFoundation
 
 public struct DemoAudioGenerator {
     public static func generateDemoStems() -> [URL] {
-        let tempDir = FileManager.default.temporaryDirectory.appendingPathComponent("AudioMergerDemos", isDirectory: true)
+        let tempDir = FileManager.default.temporaryDirectory.appendingPathComponent("MusicMixStudioDemos", isDirectory: true)
         try? FileManager.default.createDirectory(at: tempDir, withIntermediateDirectories: true)
 
         let beatURL = tempDir.appendingPathComponent("1_Rhythm_Drums.wav")

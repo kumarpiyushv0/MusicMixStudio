@@ -1,4 +1,4 @@
-// AudioMerger Studio - Web Audio Engine & Timeline UI
+// Music Mix Studio - Web Audio Engine & Timeline UI
 
 (function() {
   'use strict';

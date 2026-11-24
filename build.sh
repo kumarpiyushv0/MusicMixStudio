@@ -3,7 +3,7 @@ set -e
 
 cd "$(dirname "$0")"
 
-APP_NAME="AudioMerger"
+APP_NAME="MusicMixStudio"
 BUNDLE_DIR="$APP_NAME.app"
 MACOS_DIR="$BUNDLE_DIR/Contents/MacOS"
 RESOURCES_DIR="$BUNDLE_DIR/Contents/Resources"

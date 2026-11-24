@@ -3,10 +3,10 @@ set -e
 
 cd "$(dirname "$0")"
 
-if [ ! -f "AudioMerger.app/Contents/MacOS/AudioMerger" ]; then
+if [ ! -f "MusicMixStudio.app/Contents/MacOS/MusicMixStudio" ]; then
     ./build.sh
 fi
 
-echo "Launching AudioMerger..."
-open AudioMerger.app 2>/dev/null || ./AudioMerger.app/Contents/MacOS/AudioMerger &
-echo "AudioMerger is running!"
+echo "Launching Music Mix Studio..."
+open "MusicMixStudio.app" 2>/dev/null || ./MusicMixStudio.app/Contents/MacOS/MusicMixStudio &
+echo "Music Mix Studio is running!"

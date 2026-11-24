@@ -109,10 +109,10 @@ public struct ContentView: View {
                     .foregroundColor(.accentColor)
 
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("AudioMerger")
+                    Text("Music Mix Studio")
                         .font(.system(size: 15, weight: .bold))
 
-                    Text("Clideo + Overlap Timeline")
+                    Text("Timeline & Overlap Audio")
                         .font(.system(size: 10))
                         .foregroundColor(.secondary)
                 }

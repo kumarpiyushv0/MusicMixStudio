@@ -6,6 +6,7 @@ Icon
 ._*
 
 # Compiled application & binary builds
+MusicMixStudio.app/
 AudioMerger.app/
 *.app
 *.dSYM

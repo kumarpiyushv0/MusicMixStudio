@@ -1,4 +1,4 @@
-# AudioMerger Studio
+# Music Mix Studio
 
 A modern multi-track audio joiner and timeline editor designed for macOS with companion web playback. Features sequential audio joining, multi-track timeline overlapping, crossfading, waveform inspection, trimming, and multi-format audio export.
 
@@ -50,7 +50,7 @@ Launch the app:
 ```
 Or open the bundle directly:
 ```bash
-open AudioMerger.app
+open MusicMixStudio.app
 ```
 
 ---

@@ -2,7 +2,7 @@ import SwiftUI
 import AppKit
 
 @main
-struct AudioMergerApp: App {
+struct MusicMixStudioApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     var body: some Scene {
