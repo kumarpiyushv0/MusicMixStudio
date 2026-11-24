@@ -50,18 +50,31 @@
 - macOS 13.0 or later
 - Swift 5.9+ / Xcode Command Line Tools
 
-### Build and Launch Native macOS App
+### Install to Applications
+
+Run the installer script to automatically build and place the app into your Mac's `/Applications` folder:
+```bash
+./install.sh
+```
+Once installed, you can launch **Music Mix Studio** from:
+- **Spotlight**: Press <kbd>Cmd</kbd> + <kbd>Space</kbd> and type `Music Mix Studio`
+- **Launchpad**: Click on the app icon
+- **Finder**: Open `/Applications/Music Mix Studio.app`
+
+---
+
+### Build and Run Locally
 
 Compile the application bundle:
 ```bash
 ./build.sh
 ```
 
-Launch the app:
+Launch the app directly from the repo:
 ```bash
 ./run.sh
 ```
-Or open the bundle directly:
+Or open the bundle:
 ```bash
 open MusicMixStudio.app
 ```
