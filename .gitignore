@@ -1,0 +1,25 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Compiled application & binary builds
+AudioMerger.app/
+*.app
+*.dSYM
+*.o
+*.pcm
+*.swp
+
+# Xcode / SPM Build artifacts
+.build/
+DerivedData/
+*.xcuserstate
+project.xcworkspace/
+xcuserdata/
+
+# Swift cache
+.swift-build/
+/tmp/swiftcache/

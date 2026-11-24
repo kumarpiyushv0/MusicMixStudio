@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AudioMerger Studio - Merge & Overlap Audio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+            <path d="M12 2v20M17 5v14M7 8v8M22 10v4M2 11v2"/>
+          </svg>
+        </div>
+        <div>
+          <h1>AudioMerger Studio</h1>
+          <span class="tagline">Clideo Joiner + Multi-Track Overlap</span>
+        </div>
+      </div>
+
+      <!-- Mode Switcher -->
+      <div class="mode-switcher">
+        <button id="btnModeOverlap" class="mode-btn active" title="Multi-track timeline where tracks can overlap, slide, and mix freely">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+          Overlap Timeline
+        </button>
+        <button id="btnModeSequential" class="mode-btn" title="Clideo style: Join tracks sequentially end-to-end with crossfades">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          Sequential Join
+        </button>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <button id="btnAddFiles" class="btn btn-secondary">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add Audio
+        </button>
+        <button id="btnLoadDemo" class="btn btn-secondary" title="Load synthesized Drum, Bass and Melody stems to test overlapping">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Demo Stems
+        </button>
+        <button id="btnClearAll" class="btn btn-icon btn-danger" title="Clear all tracks" style="display:none;">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        </button>
+        <button id="btnExport" class="btn btn-primary" disabled>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export Merged Audio
+        </button>
+      </div>
+      <input type="file" id="fileInput" accept="audio/*,.mp3,.wav,.m4a,.aac,.ogg,.flac,.aiff" multiple style="display:none;">
+    </header>
+
+    <!-- Empty State Drop Zone -->
+    <div id="dropZone" class="drop-zone">
+      <div class="drop-card">
+        <div class="drop-icon">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+          </svg>
+        </div>
+        <h2>Merge & Overlap Audio Files</h2>
+        <p class="drop-sub">Drag & drop audio files here, or click Choose Files</p>
+        <p class="drop-formats">Supports MP3, WAV, M4A, AAC, FLAC, AIFF, OGG</p>
+        <div class="drop-buttons">
+          <button id="btnChooseFiles" class="btn btn-primary btn-lg">Choose Files</button>
+          <button id="btnTryDemo" class="btn btn-secondary btn-lg">Load Multi-Track Demo</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Workspace -->
+    <main id="workspace" class="workspace" style="display:none;">
+      <!-- Timeline Section -->
+      <section class="timeline-section">
+        <div class="timeline-controls-bar">
+          <div class="timeline-meta">
+            <span class="timeline-title">Visual Timeline</span>
+            <span id="timelineDurationBadge" class="badge">00:00.0</span>
+          </div>
+          <div id="overlapActionsBar" class="alignment-bar">
+            <span>Alignment:</span>
+            <button class="btn btn-xs" id="btnAlignZero">Align All to 0s</button>
+            <button class="btn btn-xs" id="btnCascade2s">Cascade (2s step)</button>
+            <button class="btn btn-xs" id="btnCascade4s">Cascade (4s step)</button>
+            <button class="btn btn-xs" id="btnSnapSequential">Snap Sequential</button>
+          </div>
+          <div class="zoom-controls">
+            <span class="zoom-label">Zoom:</span>
+            <button id="btnZoomOut" class="btn btn-icon btn-xs" title="Zoom Out">−</button>
+            <input type="range" id="zoomSlider" min="15" max="80" value="35" step="5">
+            <button id="btnZoomIn" class="btn btn-icon btn-xs" title="Zoom In">+</button>
+          </div>
+        </div>
+
+        <div class="timeline-viewport" id="timelineViewport">
+          <!-- Time Ruler -->
+          <div class="time-ruler" id="timeRuler"></div>
+          <!-- Track Lanes Container -->
+          <div class="track-lanes" id="trackLanes"></div>
+          <!-- Playhead Line -->
+          <div class="playhead" id="playhead">
+            <div class="playhead-handle"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sequential Crossfade Bar (visible only in Sequential mode) -->
+      <div id="sequentialSettingsBar" class="sequential-bar" style="display:none;">
+        <label class="checkbox-label">
+          <input type="checkbox" id="chkCrossfade" checked>
+          <span>Enable Crossfade Transitions</span>
+        </label>
+        <div class="crossfade-duration-control" id="crossfadeDurationWrap">
+          <span>Crossfade:</span>
+          <input type="range" id="crossfadeSlider" min="0.5" max="5.0" step="0.5" value="1.0">
+          <span id="crossfadeVal" class="val-badge">1.0s</span>
+        </div>
+        <span class="seq-info">Tracks play sequentially with smooth overlapping fades</span>
+      </div>
+
+      <!-- Track List Section -->
+      <section class="track-list-section">
+        <div class="section-header">
+          <h3>Audio Tracks (<span id="trackCount">0</span>)</h3>
+          <span class="section-hint">Drag handles to trim start/end. In Overlap mode, adjust Start Offset to position audio freely.</span>
+        </div>
+        <div id="trackList" class="track-list"></div>
+      </section>
+    </main>
+
+    <!-- Master Bottom Transport Bar -->
+    <footer class="transport-bar">
+      <div class="transport-controls">
+        <button id="btnRewind" class="btn btn-icon" title="Rewind to start (Home)">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/></svg>
+        </button>
+        <button id="btnPlayPause" class="btn-play" title="Play / Pause (Space)">
+          <svg id="iconPlay" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <svg id="iconPause" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="display:none;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+        </button>
+        <button id="btnLoop" class="btn btn-icon" title="Toggle Loop Playback">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+        </button>
+      </div>
+
+      <!-- Timecode Counter -->
+      <div class="timecode">
+        <span id="timeCurrent" class="time-main">00:00.0</span>
+        <span class="time-divider">/</span>
+        <span id="timeTotal" class="time-total">00:00.0</span>
+      </div>
+
+      <!-- Scrubber Track -->
+      <div class="scrubber-container">
+        <input type="range" id="masterScrubber" min="0" max="100" value="0" step="0.1">
+      </div>
+
+      <!-- Master Volume -->
+      <div class="volume-control">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+        <input type="range" id="masterVolume" min="0" max="1.5" step="0.05" value="1.0">
+      </div>
+    </footer>
+
+    <!-- Export Modal -->
+    <div id="exportModal" class="modal-overlay" style="display:none;">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Export Merged Audio</h3>
+          <button id="btnCloseModal" class="btn-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>File Name:</label>
+            <div class="input-addon">
+              <input type="text" id="exportFilename" value="Merged_Audio">
+              <span id="exportExtLabel" class="addon">.wav</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Format:</label>
+            <div class="format-options">
+              <label class="format-card selected">
+                <input type="radio" name="exportFmt" value="wav" checked>
+                <div class="format-info">
+                  <strong>WAV (Lossless 16-bit PCM)</strong>
+                  <span>Studio quality, uncompressed lossless audio</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div id="exportProgressWrap" style="display:none;">
+            <div class="progress-bar">
+              <div id="exportProgressBar" class="progress-fill" style="width: 0%;"></div>
+            </div>
+            <span id="exportStatusText" class="status-msg">Rendering audio...</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btnCancelExport" class="btn btn-secondary">Cancel</button>
+          <button id="btnStartExport" class="btn btn-primary">Render & Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
