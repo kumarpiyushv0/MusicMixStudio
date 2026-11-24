@@ -104,9 +104,12 @@ public struct ContentView: View {
         HStack(spacing: 16) {
             // Brand Logo & Name
             HStack(spacing: 8) {
-                Image(systemName: "waveform.circle.fill")
-                    .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.accentColor)
+                Image(nsImage: NSApp.applicationIconImage)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 32, height: 32)
+                    .cornerRadius(7)
+                    .shadow(color: Color.black.opacity(0.2), radius: 2, x: 0, y: 1)
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text("Music Mix Studio")

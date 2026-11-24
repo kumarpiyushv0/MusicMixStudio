@@ -16,8 +16,11 @@ mkdir -p "$MACOS_DIR"
 mkdir -p "$RESOURCES_DIR"
 mkdir -p "$CACHE_DIR"
 
-# Copy Info.plist
+# Copy Info.plist and AppIcon.icns
 cp Info.plist "$BUNDLE_DIR/Contents/Info.plist"
+if [ -f "AppIcon.icns" ]; then
+    cp AppIcon.icns "$RESOURCES_DIR/AppIcon.icns"
+fi
 
 # Collect all swift source files
 SWIFT_FILES=(

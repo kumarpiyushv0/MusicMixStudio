@@ -1,6 +1,19 @@
-# Music Mix Studio
+<p align="center">
+  <img src="assets/icon.png" width="128" height="128" alt="Music Mix Studio Icon" style="border-radius: 28px; box-shadow: 0 12px 36px rgba(0,0,0,0.4);">
+</p>
 
-A modern multi-track audio joiner and timeline editor designed for macOS with companion web playback. Features sequential audio joining, multi-track timeline overlapping, crossfading, waveform inspection, trimming, and multi-format audio export.
+<h1 align="center">Music Mix Studio</h1>
+
+<p align="center">
+  A modern multi-track audio joiner and timeline editor designed for macOS with companion web playback.
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-macOS%2013%2B-blue" alt="macOS">
+  <img src="https://img.shields.io/badge/Language-Swift%206%20%7C%20SwiftUI-orange" alt="Swift">
+  <img src="https://img.shields.io/badge/Audio-AVFoundation-purple" alt="AVFoundation">
+  <img src="https://img.shields.io/badge/Web-HTML5%20%2F%20WebAudio-success" alt="WebAudio">
+</p>
 
 ---
 
@@ -79,6 +92,11 @@ open web/index.html
 
 ```
 .
+├── assets/
+│   ├── icon.png                      # App icon (256x256)
+│   ├── icon_512.png                  # App icon (512x512)
+│   └── icon_1024.png                 # Master icon (1024x1024)
+├── AppIcon.icns                      # macOS application icon bundle
 ├── Sources/
 │   ├── Models/
 │   │   ├── AudioTrack.swift          # Track data model
@@ -100,6 +118,10 @@ open web/index.html
 │   │   └── TimeFormatter.swift       # Timecode formatting utilities
 │   └── main.swift                    # Application entry point
 ├── web/                              # Web Audio companion application
+│   ├── icon.png                      # Web favicon and logo
+│   ├── index.html
+│   ├── style.css
+│   └── app.js
 ├── Info.plist                        # macOS app metadata
 ├── build.sh                          # Compilation script
 ├── run.sh                            # Launch helper
